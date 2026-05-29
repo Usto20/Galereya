@@ -173,7 +173,7 @@
     <p>Коллекция фотографий</p>
   </div>
   <div class="home-btns">
-    <button class="home-btn" onclick="openSlider('shapka')">
+    <button class="home-btn" onclick="openSlider('Shapka')">
       <span class="btn-icon">🏔️</span>
       <span class="btn-info">
         <span class="btn-title">Шапка</span>
@@ -193,17 +193,17 @@
 </div>
 
 <!-- ШАПКА -->
-<div class="page" id="page-shapka">
+<div class="page" id="page-Shapka">
   <div class="sl-header">
     <span>🏔️</span>
     <h2>Шапка</h2>
-    <span class="sl-counter" id="ctr-shapka">1 / 40</span>
+    <span class="sl-counter" id="ctr-Shapka">1 / 40</span>
   </div>
   <div class="sl-img-wrap">
-    <img id="img-shapka" src="" alt=""/>
+    <img id="img-Shapka" src="" alt=""/>
   </div>
-  <button class="sl-prev" onclick="slide('shapka',-1)">&#8249;</button>
-  <button class="sl-next" onclick="slide('shapka',1)">&#8250;</button>
+  <button class="sl-prev" onclick="slide('Shapka',-1)">&#8249;</button>
+  <button class="sl-next" onclick="slide('Shapka',1)">&#8250;</button>
   <div class="sl-bottom">
     <button class="sl-back" onclick="goHome()">&#8592; Назад</button>
   </div>
@@ -228,10 +228,10 @@
 
 <script>
 var SEC = {
-  shapka:  { count: 40, dir: 'images/shapka'  },
+  Shapka:  { count: 40, dir: 'images/shapka'  },
   darvoza: { count: 25, dir: 'images/darvoza' }
 };
-var cur = { shapka: 0, darvoza: 0 };
+var cur = { Shapka: 0, darvoza: 0 };
 var loaded = {};
 var inited = {};
 
@@ -288,7 +288,7 @@ document.addEventListener('touchstart', function(e) {
   ty = e.touches[0].clientY;
 }, {passive:true});
 document.addEventListener('touchend', function(e) {
-  var ap = document.querySelector('#page-shapka.active, #page-darvoza.active');
+  var ap = document.querySelector('#page-Shapka.active, #page-darvoza.active');
   if (!ap) return;
   var dx = tx - e.changedTouches[0].clientX;
   var dy = Math.abs(ty - e.changedTouches[0].clientY);
@@ -297,7 +297,7 @@ document.addEventListener('touchend', function(e) {
 
 // Keyboard
 document.addEventListener('keydown', function(e) {
-  var ap = document.querySelector('#page-shapka.active, #page-darvoza.active');
+  var ap = document.querySelector('#page-Shapka.active, #page-darvoza.active');
   if (!ap) return;
   var name = ap.id.replace('page-','');
   if (e.key === 'ArrowLeft') slide(name,-1);
