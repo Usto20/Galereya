@@ -1,310 +1,410 @@
-<!DOCTYPE html>
-<html lang="ru">
+﻿<!DOCTYPE html>
+<html lang="uz">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <meta name="theme-color" content="#0a0a0a"/>
-  <title>Фото Галерея</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <meta name="theme-color" content="#2c1a0e"/>
+  <title>ТУНИКАФОН КАТАЛОГ</title>
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0; padding: 0;
-      -webkit-tap-highlight-color: transparent;
+    /* === ASOSIY === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #1a0f07;
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 18px,
+          rgba(0,0,0,0.07) 18px,
+          rgba(0,0,0,0.07) 20px
+        ),
+        repeating-linear-gradient(
+          180deg,
+          transparent,
+          transparent 60px,
+          rgba(0,0,0,0.05) 60px,
+          rgba(0,0,0,0.05) 62px
+        ),
+        linear-gradient(
+          160deg,
+          #3b2010 0%,
+          #2a1508 25%,
+          #1e0e05 50%,
+          #2e1a0a 75%,
+          #3a1f0e 100%
+        );
+      min-height: 100vh;
+      color: #f5deb3;
+      overflow-x: hidden;
     }
 
-    :root {
-      --gold: #c9a96e;
-      --text: #ede8e0;
-      --muted: #6b6560;
-      --card: #161616;
-      --border: #2a2a2a;
-    }
-
-    html, body {
-      height: 100%; width: 100%;
-      overflow: hidden;
-      background: #0a0a0a;
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .page {
-      display: none;
-      position: fixed; inset: 0;
-    }
-    .page.active { display: block; }
-
-    /* HOME */
+    /* === BOSH SAHIFA === */
     #home {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 100vh;
       padding: 2rem 1.5rem;
-      background: linear-gradient(160deg, #111210 0%, #0a0b0a 100%);
-    }
-
-    .brand {
       text-align: center;
-      margin-bottom: 2.5rem;
-    }
-    .brand-line {
-      width: 36px; height: 2px;
-      background: var(--gold);
-      margin: 0 auto 1.2rem;
-    }
-    .brand h1 {
-      font-size: 2.4rem;
-      font-weight: 700;
-      letter-spacing: -.01em;
-    }
-    .brand h1 span { color: var(--gold); }
-    .brand p {
-      margin-top: .4rem;
-      font-size: .7rem;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--muted);
     }
 
-    .home-btns {
-      width: 100%; max-width: 320px;
-      display: flex; flex-direction: column; gap: .9rem;
+    .main-title {
+      font-size: clamp(1.8rem, 7vw, 3.2rem);
+      font-weight: bold;
+      color: #f5c842;
+      text-shadow:
+        2px 2px 4px rgba(0,0,0,0.8),
+        0 0 20px rgba(245,200,66,0.3);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.6rem;
+      line-height: 1.2;
     }
 
-    .home-btn {
-      display: flex; align-items: center; gap: .9rem;
-      padding: 1.2rem;
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-size: .95rem;
-      cursor: pointer;
-      -webkit-user-select: none; user-select: none;
-    }
-    .home-btn:active {
-      background: #1e1e1e;
-      border-color: var(--gold);
-    }
-    .btn-icon { font-size: 1.4rem; }
-    .btn-info { flex: 1; text-align: left; }
-    .btn-title { display: block; font-weight: 600; font-size: .95rem; }
-    .btn-sub { display: block; font-size: .7rem; color: var(--muted); margin-top: .1rem; }
-    .btn-arr { color: var(--muted); font-size: 1.2rem; }
-
-    /* SLIDER */
-    #page-shapka, #page-darvoza {
-      background: #000;
+    .sub-title {
+      font-size: clamp(1rem, 4vw, 1.5rem);
+      color: #d4a96a;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+      margin-bottom: 3rem;
+      font-style: italic;
     }
 
-    .sl-header {
-      position: absolute; top: 0; left: 0; right: 0; z-index: 10;
-      display: flex; align-items: center; gap: .6rem;
-      padding: .8rem 1rem;
-      background: linear-gradient(to bottom, rgba(0,0,0,.85), transparent);
-    }
-    .sl-header h2 {
-      font-size: 1.1rem; font-weight: 600; flex: 1;
-      text-shadow: 0 1px 4px #000;
-    }
-    .sl-counter {
-      font-size: .7rem; letter-spacing: .1em;
-      color: rgba(255,255,255,.5);
+    .menu-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      width: 100%;
+      max-width: 320px;
     }
 
-    .sl-img-wrap {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 68px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .sl-img-wrap img {
-      max-width: 100%; max-height: 100%;
-      width: auto; height: auto;
-      object-fit: contain;
+    .menu-btn {
       display: block;
-      transition: opacity .18s;
+      width: 100%;
+      padding: 1.1rem 1.5rem;
+      font-size: 1.25rem;
+      font-family: 'Georgia', serif;
+      font-weight: bold;
+      color: #f5deb3;
+      background: linear-gradient(145deg, #5c3010, #3a1c08, #5c3010);
+      border: 2px solid #a0622a;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      box-shadow:
+        0 4px 15px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,200,100,0.15);
+      transition: transform 0.15s, box-shadow 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      letter-spacing: 0.03em;
     }
-    .sl-img-wrap img.fade { opacity: 0; }
 
-    .sl-prev, .sl-next {
-      position: absolute; top: 50%; transform: translateY(-50%);
+    .menu-btn:active {
+      transform: scale(0.97);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    .menu-btn .btn-icon {
+      display: block;
+      font-size: 2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    /* === GALEREYA SAHIFASI === */
+    #gallery {
+      display: none;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    #gallery.active {
+      display: flex;
+    }
+
+    .gallery-header {
+      background: linear-gradient(180deg, rgba(0,0,0,0.7), transparent);
+      padding: 1rem 1rem 0.5rem;
+      text-align: center;
+    }
+
+    .gallery-title {
+      font-size: 1.1rem;
+      color: #f5c842;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+    }
+
+    .gallery-counter {
+      font-size: 0.85rem;
+      color: #d4a96a;
+      margin-top: 0.2rem;
+    }
+
+    /* === RASM SLIDER === */
+    .slider-wrap {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      min-height: calc(100vh - 140px);
+    }
+
+    .slide-img {
+      display: none;
+      width: 100%;
+      height: calc(100vh - 140px);
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .slide-img.active {
+      display: block;
+    }
+
+    /* Lazy load placeholder */
+    .slide-img[data-src] {
+      background: #1a0f07;
+    }
+
+    /* === NAVIGATSIYA TUGMALARI === */
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(60, 30, 10, 0.75);
+      border: 2px solid rgba(160, 98, 42, 0.6);
+      color: #f5deb3;
+      font-size: 2rem;
+      width: 52px;
+      height: 80px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       z-index: 10;
-      width: 52px; height: 76px;
-      background: rgba(0,0,0,.55);
-      border: 1px solid rgba(255,255,255,.15);
-      color: #fff; font-size: 2rem;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      -webkit-user-select: none; user-select: none;
-    }
-    .sl-prev { left: 0; border-left: none; border-radius: 0 6px 6px 0; }
-    .sl-next { right: 0; border-right: none; border-radius: 6px 0 0 6px; }
-    .sl-prev:active, .sl-next:active {
-      background: rgba(201,169,110,.4);
-      border-color: var(--gold);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      transition: background 0.15s;
     }
 
-    .sl-bottom {
-      position: absolute; bottom: 0; left: 0; right: 0; z-index: 10;
-      padding: .5rem .8rem calc(.5rem + env(safe-area-inset-bottom, 0px));
-      background: linear-gradient(to top, rgba(0,0,0,.8), transparent);
+    .nav-btn:active {
+      background: rgba(100, 50, 15, 0.9);
     }
-    .sl-back {
-      width: 100%; padding: .9rem;
-      background: rgba(22,22,22,.9);
-      border: 1px solid rgba(255,255,255,.12);
-      color: var(--text);
-      font-size: .95rem; font-weight: 500;
-      display: flex; align-items: center; justify-content: center; gap: .4rem;
+
+    .nav-prev { left: 6px; }
+    .nav-next { right: 6px; }
+
+    /* === BACK TUGMA === */
+    .back-wrap {
+      padding: 0.8rem 1rem;
+      text-align: center;
+      background: linear-gradient(0deg, rgba(0,0,0,0.6), transparent);
+    }
+
+    .back-btn {
+      display: inline-block;
+      padding: 0.7rem 2.5rem;
+      font-size: 1.05rem;
+      font-family: 'Georgia', serif;
+      font-weight: bold;
+      color: #f5deb3;
+      background: linear-gradient(145deg, #5c3010, #3a1c08);
+      border: 2px solid #a0622a;
+      border-radius: 6px;
       cursor: pointer;
-      -webkit-user-select: none; user-select: none;
+      text-decoration: none;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+      -webkit-tap-highlight-color: transparent;
+      letter-spacing: 0.05em;
+      transition: transform 0.15s;
     }
-    .sl-back:active { border-color: var(--gold); background: #222; }
+
+    .back-btn:active { transform: scale(0.96); }
+
+    /* === LOADING === */
+    .loading-indicator {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #d4a96a;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    /* === SWIPE hint === */
+    .swipe-hint {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(212,169,106,0.5);
+      font-size: 0.72rem;
+      white-space: nowrap;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
 
-<!-- HOME -->
-<div class="page active" id="home">
-  <div class="brand">
-    <div class="brand-line"></div>
-    <h1>Фото <span>Галерея</span></h1>
-    <p>Коллекция фотографий</p>
-  </div>
-  <div class="home-btns">
-    <button class="home-btn" onclick="openSlider('shapka')">
-      <span class="btn-icon">🏔️</span>
-      <span class="btn-info">
-        <span class="btn-title">Шапка</span>
-        <span class="btn-sub">40 фотографий</span>
-      </span>
-      <span class="btn-arr">›</span>
+<!-- BOSH SAHIFA -->
+<div id="home">
+  <div class="main-title">ТУНИКАФОН<br>КАТАЛОГ</div>
+  <div class="sub-title">Фото Галерея</div>
+
+  <div class="menu-buttons">
+    <button class="menu-btn" onclick="openGallery('shapka')">
+      <span class="btn-icon">👒</span>
+      Шапка
     </button>
-    <button class="home-btn" onclick="openSlider('darvoza')">
+    <button class="menu-btn" onclick="openGallery('darvoza')">
       <span class="btn-icon">🚪</span>
-      <span class="btn-info">
-        <span class="btn-title">Дарвоза хона</span>
-        <span class="btn-sub">25 фотографий</span>
-      </span>
-      <span class="btn-arr">›</span>
+      Дарвоза хона
     </button>
   </div>
 </div>
 
-<!-- ШАПКА -->
-<div class="page" id="page-shapka">
-  <div class="sl-header">
-    <span>🏔️</span>
-    <h2>Шапка</h2>
-    <span class="sl-counter" id="ctr-shapka">1 / 40</span>
+<!-- GALEREYA SAHIFASI -->
+<div id="gallery">
+  <div class="gallery-header">
+    <div class="gallery-title" id="galleryTitle"></div>
+    <div class="gallery-counter" id="galleryCounter"></div>
   </div>
-  <div class="sl-img-wrap">
-    <img id="img-shapka" src="" alt=""/>
-  </div>
-  <button class="sl-prev" onclick="slide('shapka',-1)">&#8249;</button>
-  <button class="sl-next" onclick="slide('shapka',1)">&#8250;</button>
-  <div class="sl-bottom">
-    <button class="sl-back" onclick="goHome()">&#8592; Назад</button>
-  </div>
-</div>
 
-<!-- ДАРВОЗА ХОНА -->
-<div class="page" id="page-darvoza">
-  <div class="sl-header">
-    <span>🚪</span>
-    <h2>Дарвоза хона</h2>
-    <span class="sl-counter" id="ctr-darvoza">1 / 25</span>
+  <div class="slider-wrap">
+    <div class="loading-indicator" id="loadingIndicator">Yuklanmoqda...</div>
+    <div id="slides"></div>
+
+    <button class="nav-btn nav-prev" onclick="changeSlide(-1)" aria-label="Orqaga">&#8249;</button>
+    <button class="nav-btn nav-next" onclick="changeSlide(1)" aria-label="Oldinga">&#8250;</button>
+
+    <div class="swipe-hint">← chap/o'ng suring →</div>
   </div>
-  <div class="sl-img-wrap">
-    <img id="img-darvoza" src="" alt=""/>
-  </div>
-  <button class="sl-prev" onclick="slide('darvoza',-1)">&#8249;</button>
-  <button class="sl-next" onclick="slide('darvoza',1)">&#8250;</button>
-  <div class="sl-bottom">
-    <button class="sl-back" onclick="goHome()">&#8592; Назад</button>
+
+  <div class="back-wrap">
+    <button class="back-btn" onclick="goHome()">← Назад</button>
   </div>
 </div>
 
 <script>
-var SEC = {
-  shapka:  { count: 40, dir: 'Images/Shapka'  },
-  darvoza: { count: 25, dir: 'Images/darvoza' }
-};
-var cur = { shapka: 0, darvoza: 0 };
-var cache = {};
-var inited = {};
+  // === CONFIG ===
+  const BASE = 'https://usto20.github.io/Galereya';
 
-function src(name, i) {
-  return SEC[name].dir + '/' + (i + 1) + '.jpg';
-}
-
-function preload(name, i) {
-  var n = SEC[name].count;
-  [0,1,2,-1].forEach(function(o) {
-    var idx = ((i + o) % n + n) % n;
-    var s = src(name, idx);
-    if (!cache[s]) {
-      var im = new Image();
-      im.src = s;
-      cache[s] = 1;
-    }
-  });
-}
-
-function setSlide(name, i) {
-  var n = SEC[name].count;
-  cur[name] = ((i % n) + n) % n;
-  var img = document.getElementById('img-' + name);
-  var s = src(name, cur[name]);
-  img.classList.add('fade');
-  var tmp = new Image();
-  tmp.onload = tmp.onerror = function() {
-    img.src = s;
-    img.classList.remove('fade');
+  const GALLERIES = {
+    shapka:  { title: 'Шапка',       count: 40, folder: 'Images/Shapka'  },
+    darvoza: { title: 'Дарвоза хона', count: 25, folder: 'Images/darvoza' }
   };
-  tmp.src = s;
-  document.getElementById('ctr-' + name).textContent = (cur[name] + 1) + ' / ' + n;
-  preload(name, cur[name]);
-}
 
-function slide(name, d) { setSlide(name, cur[name] + d); }
+  let current = 0;
+  let total = 0;
+  let currentGallery = null;
+  let loadedImages = {};
 
-function openSlider(name) {
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  document.getElementById('page-' + name).classList.add('active');
-  if (!inited[name]) { inited[name] = 1; setSlide(name, 0); }
-}
+  // === SWIPE ===
+  let touchStartX = 0;
+  let touchStartY = 0;
 
-function goHome() {
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  document.getElementById('home').classList.add('active');
-}
+  document.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
 
-var tx = 0, ty = 0;
-document.addEventListener('touchstart', function(e) {
-  tx = e.touches[0].clientX;
-  ty = e.touches[0].clientY;
-}, {passive:true});
+  document.addEventListener('touchend', e => {
+    if (!currentGallery) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      changeSlide(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
 
-document.addEventListener('touchend', function(e) {
-  var ap = document.querySelector('#page-shapka.active, #page-darvoza.active');
-  if (!ap) return;
-  var dx = tx - e.changedTouches[0].clientX;
-  var dy = Math.abs(ty - e.changedTouches[0].clientY);
-  if (Math.abs(dx) > 40 && Math.abs(dx) > dy) {
-    slide(ap.id.replace('page-',''), dx > 0 ? 1 : -1);
+  // === GALLERY OPEN ===
+  function openGallery(name) {
+    currentGallery = name;
+    current = 0;
+    loadedImages = {};
+    const g = GALLERIES[name];
+    total = g.count;
+
+    document.getElementById('home').style.display = 'none';
+    const gallery = document.getElementById('gallery');
+    gallery.style.display = 'flex';
+    gallery.classList.add('active');
+
+    document.getElementById('galleryTitle').textContent = g.title;
+
+    // Slaydlar yaratish
+    const slidesDiv = document.getElementById('slides');
+    slidesDiv.innerHTML = '';
+
+    for (let i = 1; i <= total; i++) {
+      const img = document.createElement('img');
+      img.className = 'slide-img' + (i === 1 ? ' active' : '');
+      img.alt = g.title + ' ' + i;
+      img.setAttribute('data-index', i);
+      // Lazy src
+      img.setAttribute('data-src', BASE + '/' + g.folder + '/' + i + '.jpg');
+      slidesDiv.appendChild(img);
+    }
+
+    updateCounter();
+    loadImage(0);       // joriy
+    loadImage(1);       // keyingi
   }
-}, {passive:true});
 
-document.addEventListener('keydown', function(e) {
-  var ap = document.querySelector('#page-shapka.active, #page-darvoza.active');
-  if (!ap) return;
-  var name = ap.id.replace('page-','');
-  if (e.key === 'ArrowLeft') slide(name,-1);
-  if (e.key === 'ArrowRight') slide(name,1);
-  if (e.key === 'Escape') goHome();
-});
+  // === RASM YUKLASH (lazy) ===
+  function loadImage(index) {
+    if (index < 0 || index >= total) return;
+    if (loadedImages[index]) return;
+
+    const imgs = document.querySelectorAll('.slide-img');
+    const img = imgs[index];
+    if (!img || !img.getAttribute('data-src')) return;
+
+    loadedImages[index] = true;
+    img.src = img.getAttribute('data-src');
+    img.removeAttribute('data-src');
+  }
+
+  // === SLIDE O'ZGARTIRISH ===
+  function changeSlide(dir) {
+    const newIndex = current + dir;
+    if (newIndex < 0 || newIndex >= total) return;
+
+    const imgs = document.querySelectorAll('.slide-img');
+    imgs[current].classList.remove('active');
+    current = newIndex;
+    imgs[current].classList.add('active');
+
+    updateCounter();
+
+    // Preload keyingi 2 ta
+    loadImage(current);
+    loadImage(current + 1);
+    loadImage(current + 2);
+  }
+
+  // === COUNTER ===
+  function updateCounter() {
+    document.getElementById('galleryCounter').textContent =
+      (current + 1) + ' / ' + total;
+  }
+
+  // === ORQAGA ===
+  function goHome() {
+    currentGallery = null;
+    const gallery = document.getElementById('gallery');
+    gallery.style.display = 'none';
+    gallery.classList.remove('active');
+    document.getElementById('home').style.display = 'flex';
+    document.getElementById('slides').innerHTML = '';
+    loadedImages = {};
+  }
 </script>
 </body>
 </html>
