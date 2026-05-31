@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="uz">
 <head>
   <meta charset="UTF-8"/>
@@ -6,404 +6,175 @@
   <meta name="theme-color" content="#2c1a0e"/>
   <title>ТУНИКАФОН КАТАЛОГ</title>
   <style>
-    /* === ASOSIY === */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Georgia', serif;
       background-color: #1a0f07;
       background-image:
-        repeating-linear-gradient(
-          90deg,
-          transparent,
-          transparent 18px,
-          rgba(0,0,0,0.07) 18px,
-          rgba(0,0,0,0.07) 20px
-        ),
-        repeating-linear-gradient(
-          180deg,
-          transparent,
-          transparent 60px,
-          rgba(0,0,0,0.05) 60px,
-          rgba(0,0,0,0.05) 62px
-        ),
-        linear-gradient(
-          160deg,
-          #3b2010 0%,
-          #2a1508 25%,
-          #1e0e05 50%,
-          #2e1a0a 75%,
-          #3a1f0e 100%
-        );
+        repeating-linear-gradient(90deg, transparent, transparent 18px, rgba(0,0,0,0.07) 18px, rgba(0,0,0,0.07) 20px),
+        repeating-linear-gradient(180deg, transparent, transparent 60px, rgba(0,0,0,0.05) 60px, rgba(0,0,0,0.05) 62px),
+        linear-gradient(160deg, #3b2010 0%, #2a1508 25%, #1e0e05 50%, #2e1a0a 75%, #3a1f0e 100%);
       min-height: 100vh;
       color: #f5deb3;
       overflow-x: hidden;
     }
 
-    /* === BOSH SAHIFA === */
-    #home {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 2rem 1.5rem;
-      text-align: center;
-    }
+    #home { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem 1.5rem; text-align: center; }
+    .main-title { font-size: clamp(1.8rem, 7vw, 3.2rem); font-weight: bold; color: #f5c842; text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0 0 20px rgba(245,200,66,0.3); letter-spacing: 0.05em; margin-bottom: 0.6rem; line-height: 1.2; }
+    .sub-title { font-size: clamp(1rem, 4vw, 1.5rem); color: #d4a96a; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); margin-bottom: 3rem; font-style: italic; }
+    .menu-buttons { display: flex; flex-direction: column; gap: 1.2rem; width: 100%; max-width: 320px; }
+    .menu-btn { display: block; width: 100%; padding: 1.1rem 1.5rem; font-size: 1.25rem; font-family: 'Georgia', serif; font-weight: bold; color: #f5deb3; background: linear-gradient(145deg, #5c3010, #3a1c08, #5c3010); border: 2px solid #a0622a; border-radius: 8px; cursor: pointer; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,200,100,0.15); transition: transform 0.15s; -webkit-tap-highlight-color: transparent; letter-spacing: 0.03em; }
+    .menu-btn:active { transform: scale(0.97); }
+    .menu-btn .btn-icon { display: block; font-size: 2rem; margin-bottom: 0.3rem; }
 
-    .main-title {
-      font-size: clamp(1.8rem, 7vw, 3.2rem);
-      font-weight: bold;
-      color: #f5c842;
-      text-shadow:
-        2px 2px 4px rgba(0,0,0,0.8),
-        0 0 20px rgba(245,200,66,0.3);
-      letter-spacing: 0.05em;
-      margin-bottom: 0.6rem;
-      line-height: 1.2;
-    }
+    #gallery { display: none; flex-direction: column; min-height: 100vh; }
+    #gallery.active { display: flex; }
+    .gallery-header { background: linear-gradient(180deg, rgba(0,0,0,0.7), transparent); padding: 1rem 1rem 0.5rem; text-align: center; }
+    .gallery-title { font-size: 1.1rem; color: #f5c842; font-weight: bold; letter-spacing: 0.05em; }
+    .gallery-counter { font-size: 0.85rem; color: #d4a96a; margin-top: 0.2rem; }
 
-    .sub-title {
-      font-size: clamp(1rem, 4vw, 1.5rem);
-      color: #d4a96a;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-      margin-bottom: 3rem;
-      font-style: italic;
-    }
+    .slider-wrap { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; background: #000; min-height: calc(100vh - 140px); }
+    .slide-img { display: none; width: 100%; height: calc(100vh - 140px); object-fit: contain; object-position: center; }
+    .slide-img.active { display: block; }
 
-    .menu-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-      width: 100%;
-      max-width: 320px;
-    }
-
-    .menu-btn {
-      display: block;
-      width: 100%;
-      padding: 1.1rem 1.5rem;
-      font-size: 1.25rem;
-      font-family: 'Georgia', serif;
-      font-weight: bold;
-      color: #f5deb3;
-      background: linear-gradient(145deg, #5c3010, #3a1c08, #5c3010);
-      border: 2px solid #a0622a;
-      border-radius: 8px;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      box-shadow:
-        0 4px 15px rgba(0,0,0,0.5),
-        inset 0 1px 0 rgba(255,200,100,0.15);
-      transition: transform 0.15s, box-shadow 0.15s;
-      -webkit-tap-highlight-color: transparent;
-      letter-spacing: 0.03em;
-    }
-
-    .menu-btn:active {
-      transform: scale(0.97);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    }
-
-    .menu-btn .btn-icon {
-      display: block;
-      font-size: 2rem;
-      margin-bottom: 0.3rem;
-    }
-
-    /* === GALEREYA SAHIFASI === */
-    #gallery {
-      display: none;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    #gallery.active {
-      display: flex;
-    }
-
-    .gallery-header {
-      background: linear-gradient(180deg, rgba(0,0,0,0.7), transparent);
-      padding: 1rem 1rem 0.5rem;
-      text-align: center;
-    }
-
-    .gallery-title {
-      font-size: 1.1rem;
-      color: #f5c842;
-      font-weight: bold;
-      letter-spacing: 0.05em;
-    }
-
-    .gallery-counter {
-      font-size: 0.85rem;
-      color: #d4a96a;
-      margin-top: 0.2rem;
-    }
-
-    /* === RASM SLIDER === */
-    .slider-wrap {
-      position: relative;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #000;
-      min-height: calc(100vh - 140px);
-    }
-
-    .slide-img {
-      display: none;
-      width: 100%;
-      height: calc(100vh - 140px);
-      object-fit: contain;
-      object-position: center;
-    }
-
-    .slide-img.active {
-      display: block;
-    }
-
-    /* Lazy load placeholder */
-    .slide-img[data-src] {
-      background: #1a0f07;
-    }
-
-    /* === NAVIGATSIYA TUGMALARI === */
-    .nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(60, 30, 10, 0.75);
-      border: 2px solid rgba(160, 98, 42, 0.6);
-      color: #f5deb3;
-      font-size: 2rem;
-      width: 52px;
-      height: 80px;
-      border-radius: 6px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      transition: background 0.15s;
-    }
-
-    .nav-btn:active {
-      background: rgba(100, 50, 15, 0.9);
-    }
-
+    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(60,30,10,0.75); border: 2px solid rgba(160,98,42,0.6); color: #f5deb3; font-size: 2rem; width: 52px; height: 80px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    .nav-btn:active { background: rgba(100,50,15,0.9); }
     .nav-prev { left: 6px; }
     .nav-next { right: 6px; }
 
-    /* === BACK TUGMA === */
-    .back-wrap {
-      padding: 0.8rem 1rem;
-      text-align: center;
-      background: linear-gradient(0deg, rgba(0,0,0,0.6), transparent);
-    }
-
-    .back-btn {
-      display: inline-block;
-      padding: 0.7rem 2.5rem;
-      font-size: 1.05rem;
-      font-family: 'Georgia', serif;
-      font-weight: bold;
-      color: #f5deb3;
-      background: linear-gradient(145deg, #5c3010, #3a1c08);
-      border: 2px solid #a0622a;
-      border-radius: 6px;
-      cursor: pointer;
-      text-decoration: none;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-      -webkit-tap-highlight-color: transparent;
-      letter-spacing: 0.05em;
-      transition: transform 0.15s;
-    }
-
+    .back-wrap { padding: 0.8rem 1rem; text-align: center; background: linear-gradient(0deg, rgba(0,0,0,0.6), transparent); }
+    .back-btn { display: inline-block; padding: 0.7rem 2.5rem; font-size: 1.05rem; font-family: 'Georgia', serif; font-weight: bold; color: #f5deb3; background: linear-gradient(145deg, #5c3010, #3a1c08); border: 2px solid #a0622a; border-radius: 6px; cursor: pointer; box-shadow: 0 3px 10px rgba(0,0,0,0.5); -webkit-tap-highlight-color: transparent; letter-spacing: 0.05em; transition: transform 0.15s; }
     .back-btn:active { transform: scale(0.96); }
 
-    /* === LOADING === */
-    .loading-indicator {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #d4a96a;
-      font-size: 0.9rem;
-      display: none;
-    }
+    .loading-indicator { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: #d4a96a; font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; z-index: 5; }
+    .spinner { width: 36px; height: 36px; border: 3px solid rgba(212,169,106,0.2); border-top-color: #f5c842; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-indicator.hidden { display: none; }
 
-    /* === SWIPE hint === */
-    .swipe-hint {
-      position: absolute;
-      bottom: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(212,169,106,0.5);
-      font-size: 0.72rem;
-      white-space: nowrap;
-      pointer-events: none;
-    }
+    .swipe-hint { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); color: rgba(212,169,106,0.5); font-size: 0.72rem; white-space: nowrap; pointer-events: none; }
   </style>
 </head>
 <body>
 
-<!-- BOSH SAHIFA -->
 <div id="home">
   <div class="main-title">ТУНИКАФОН<br>КАТАЛОГ</div>
   <div class="sub-title">Фото Галерея</div>
-
   <div class="menu-buttons">
     <button class="menu-btn" onclick="openGallery('shapka')">
-      <span class="btn-icon">👒</span>
-      Шапка
+      <span class="btn-icon">👒</span>Шапка
     </button>
     <button class="menu-btn" onclick="openGallery('darvoza')">
-      <span class="btn-icon">🚪</span>
-      Дарвоза хона
+      <span class="btn-icon">🚪</span>Дарвоза хона
     </button>
   </div>
 </div>
 
-<!-- GALEREYA SAHIFASI -->
 <div id="gallery">
   <div class="gallery-header">
     <div class="gallery-title" id="galleryTitle"></div>
     <div class="gallery-counter" id="galleryCounter"></div>
   </div>
-
   <div class="slider-wrap">
-    <div class="loading-indicator" id="loadingIndicator">Yuklanmoqda...</div>
+    <div class="loading-indicator hidden" id="loadingIndicator">
+      <div class="spinner"></div>
+      <span>Yuklanmoqda...</span>
+    </div>
     <div id="slides"></div>
-
-    <button class="nav-btn nav-prev" onclick="changeSlide(-1)" aria-label="Orqaga">&#8249;</button>
-    <button class="nav-btn nav-next" onclick="changeSlide(1)" aria-label="Oldinga">&#8250;</button>
-
+    <button class="nav-btn nav-prev" onclick="changeSlide(-1)">&#8249;</button>
+    <button class="nav-btn nav-next" onclick="changeSlide(1)">&#8250;</button>
     <div class="swipe-hint">← chap/o'ng suring →</div>
   </div>
-
   <div class="back-wrap">
     <button class="back-btn" onclick="goHome()">← Назад</button>
   </div>
 </div>
 
 <script>
-  // === CONFIG ===
   const BASE = 'https://usto20.github.io/Galereya';
-
   const GALLERIES = {
-    shapka:  { title: 'Шапка',       count: 40, folder: 'Images/Shapka'  },
+    shapka:  { title: 'Шапка',        count: 40, folder: 'Images/Shapka'  },
     darvoza: { title: 'Дарвоза хона', count: 25, folder: 'Images/darvoza' }
   };
+  let current=0, total=0, currentGallery=null, imgObjects=[], imgEls=[];
+  let touchStartX=0, touchStartY=0;
 
-  let current = 0;
-  let total = 0;
-  let currentGallery = null;
-  let loadedImages = {};
-
-  // === SWIPE ===
-  let touchStartX = 0;
-  let touchStartY = 0;
-
-  document.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-  }, { passive: true });
-
+  document.addEventListener('touchstart', e => { touchStartX=e.touches[0].clientX; touchStartY=e.touches[0].clientY; }, {passive:true});
   document.addEventListener('touchend', e => {
     if (!currentGallery) return;
     const dx = e.changedTouches[0].clientX - touchStartX;
     const dy = e.changedTouches[0].clientY - touchStartY;
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
-      changeSlide(dx < 0 ? 1 : -1);
-    }
-  }, { passive: true });
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) changeSlide(dx < 0 ? 1 : -1);
+  }, {passive:true});
 
-  // === GALLERY OPEN ===
   function openGallery(name) {
-    currentGallery = name;
-    current = 0;
-    loadedImages = {};
-    const g = GALLERIES[name];
-    total = g.count;
-
-    document.getElementById('home').style.display = 'none';
-    const gallery = document.getElementById('gallery');
-    gallery.style.display = 'flex';
-    gallery.classList.add('active');
-
-    document.getElementById('galleryTitle').textContent = g.title;
-
-    // Slaydlar yaratish
-    const slidesDiv = document.getElementById('slides');
-    slidesDiv.innerHTML = '';
-
-    for (let i = 1; i <= total; i++) {
-      const img = document.createElement('img');
-      img.className = 'slide-img' + (i === 1 ? ' active' : '');
-      img.alt = g.title + ' ' + i;
-      img.setAttribute('data-index', i);
-      // Lazy src
-      img.setAttribute('data-src', BASE + '/' + g.folder + '/' + i + '.jpg');
-      slidesDiv.appendChild(img);
+    currentGallery=name; current=0;
+    const g=GALLERIES[name]; total=g.count;
+    const urls=[];
+    for (let i=1;i<=total;i++) urls.push(BASE+'/'+g.folder+'/'+i+'.jpg');
+    const slidesDiv=document.getElementById('slides');
+    slidesDiv.innerHTML=''; imgEls=[]; imgObjects=[];
+    for (let i=0;i<total;i++) {
+      const el=document.createElement('img');
+      el.className='slide-img'+(i===0?' active':'');
+      el.alt=g.title+' '+(i+1);
+      slidesDiv.appendChild(el); imgEls.push(el); imgObjects.push(null);
     }
-
+    document.getElementById('home').style.display='none';
+    const gallery=document.getElementById('gallery');
+    gallery.style.display='flex'; gallery.classList.add('active');
+    document.getElementById('galleryTitle').textContent=g.title;
     updateCounter();
-    loadImage(0);       // joriy
-    loadImage(1);       // keyingi
+    showLoading(true);
+    preloadAt(0, () => { imgEls[0].src=urls[0]; showLoading(false); preloadBatch(urls,1,5); }, urls[0]);
   }
 
-  // === RASM YUKLASH (lazy) ===
-  function loadImage(index) {
-    if (index < 0 || index >= total) return;
-    if (loadedImages[index]) return;
-
-    const imgs = document.querySelectorAll('.slide-img');
-    const img = imgs[index];
-    if (!img || !img.getAttribute('data-src')) return;
-
-    loadedImages[index] = true;
-    img.src = img.getAttribute('data-src');
-    img.removeAttribute('data-src');
+  function preloadAt(index, cb, url) {
+    if (imgObjects[index]) { cb&&cb(); return; }
+    const img=new Image();
+    img.onload=img.onerror=()=>{ cb&&cb(); };
+    img.src=url; imgObjects[index]=img;
   }
 
-  // === SLIDE O'ZGARTIRISH ===
+  function preloadBatch(urls, from, count) {
+    for (let i=from;i<Math.min(from+count,total);i++) {
+      if (!imgObjects[i]) {
+        const img=new Image(); img.src=urls[i]; imgObjects[i]=img;
+        if (imgEls[i]&&!imgEls[i].src) imgEls[i].src=urls[i];
+      }
+    }
+  }
+
   function changeSlide(dir) {
-    const newIndex = current + dir;
-    if (newIndex < 0 || newIndex >= total) return;
-
-    const imgs = document.querySelectorAll('.slide-img');
-    imgs[current].classList.remove('active');
-    current = newIndex;
-    imgs[current].classList.add('active');
-
-    updateCounter();
-
-    // Preload keyingi 2 ta
-    loadImage(current);
-    loadImage(current + 1);
-    loadImage(current + 2);
+    const newIndex=current+dir;
+    if (newIndex<0||newIndex>=total) return;
+    const g=GALLERIES[currentGallery];
+    const nextUrl=BASE+'/'+g.folder+'/'+(newIndex+1)+'.jpg';
+    const urls=[];
+    for (let i=1;i<=total;i++) urls.push(BASE+'/'+g.folder+'/'+i+'.jpg');
+    const doSwitch=()=>{
+      imgEls[current].classList.remove('active');
+      current=newIndex;
+      if (!imgEls[current].src) imgEls[current].src=nextUrl;
+      imgEls[current].classList.add('active');
+      showLoading(false); updateCounter();
+      preloadBatch(urls, current+1, 4);
+    };
+    if (imgObjects[newIndex]) { doSwitch(); }
+    else { showLoading(true); preloadAt(newIndex, doSwitch, nextUrl); }
   }
 
-  // === COUNTER ===
-  function updateCounter() {
-    document.getElementById('galleryCounter').textContent =
-      (current + 1) + ' / ' + total;
+  function showLoading(show) {
+    const el=document.getElementById('loadingIndicator');
+    show ? el.classList.remove('hidden') : el.classList.add('hidden');
   }
-
-  // === ORQAGA ===
+  function updateCounter() { document.getElementById('galleryCounter').textContent=(current+1)+' / '+total; }
   function goHome() {
-    currentGallery = null;
-    const gallery = document.getElementById('gallery');
-    gallery.style.display = 'none';
-    gallery.classList.remove('active');
-    document.getElementById('home').style.display = 'flex';
-    document.getElementById('slides').innerHTML = '';
-    loadedImages = {};
+    currentGallery=null;
+    const gallery=document.getElementById('gallery');
+    gallery.style.display='none'; gallery.classList.remove('active');
+    document.getElementById('home').style.display='flex';
+    document.getElementById('slides').innerHTML=''; imgEls=[]; imgObjects=[];
   }
 </script>
 </body>
